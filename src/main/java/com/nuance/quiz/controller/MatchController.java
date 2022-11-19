@@ -28,4 +28,10 @@ public class MatchController {
   public List<Match> getAllMatch() {
     return matchService.getAllMatches();
   }
+  @GetMapping("/current")
+  @ApiOperation(value = "Get current matches", response = Match.class, responseContainer = "List",
+      produces = MediaType.APPLICATION_JSON_VALUE)
+  public List<Match> getCurrentMatch() {
+    return matchService.getCurrentMatches();
+  }
 }

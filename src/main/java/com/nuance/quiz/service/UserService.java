@@ -8,4 +8,8 @@ public interface UserService {
   List<User> getAllUsers();
 
   User getUser(Integer userId);
+
+  User createUser(User user);
+
+  String authenticateUser(String username, String password);
 }

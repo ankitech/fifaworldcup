@@ -6,6 +6,7 @@ import java.util.List;
 public interface MatchService {
 
   List<Match> getAllMatches();
+  List<Match> getCurrentMatches();
 
   Match getMatch(Integer matchId);
 }

@@ -13,6 +13,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.lang.Nullable;
 
 @ApiModel(description = "User details object")
 @Getter
@@ -31,6 +32,7 @@ public class User {
   private String password;
   private String fname;
   private String lname;
+  @Nullable
   private Integer totalPoints;
 
   @OneToMany(mappedBy = "user")
