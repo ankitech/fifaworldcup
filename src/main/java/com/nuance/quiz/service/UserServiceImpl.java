@@ -31,8 +31,8 @@ public class UserServiceImpl implements UserService{
   }
   @Override
   public String authenticateUser(String username, String password) {
-    User user = userRepository.findByUserEmail(username);
-//        .orElseThrow(() -> new UsernameNotFoundException("User Not found"));
+    User user = userRepository.findByEmail(username)
+        .orElseThrow(() -> new UsernameNotFoundException("User Not found"));
 
     if(user.getPassword().equals(password)) {
       //TODO: generate token

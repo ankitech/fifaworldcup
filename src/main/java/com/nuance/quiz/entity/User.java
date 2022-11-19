@@ -3,6 +3,7 @@ package com.nuance.quiz.entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.annotations.ApiModel;
 import java.util.Set;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -27,8 +28,9 @@ public class User {
 
   @Id
   @GeneratedValue
-  private int user_id;
-  private String userEmail;
+  private int userId;
+  @Column(name = "user_email")
+  private String email;
   private String password;
   private String fname;
   private String lname;

@@ -23,8 +23,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        com.nuance.quiz.entity.User user = userRepository.findByUserEmail(username);
-//            .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        return new User(user.getUserEmail(), user.getPassword(), Collections.emptyList());
+        com.nuance.quiz.entity.User user = userRepository.findByEmail(username)
+            .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        return new User(user.getEmail(), user.getPassword(), Collections.emptyList());
     }
 }
