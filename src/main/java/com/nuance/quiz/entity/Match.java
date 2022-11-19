@@ -1,9 +1,9 @@
 package com.nuance.quiz.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import io.swagger.annotations.ApiModel;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,6 +17,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.lang.Nullable;
 
+@ApiModel(description = "Match details object")
 @Getter
 @Setter
 @Builder
