@@ -35,7 +35,7 @@ public class PredictionController {
   @ApiOperation(value = "add new prediction", response = Prediction.class,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public Prediction addPrediction(@PathVariable int userId, @PathVariable int matchId, @RequestBody Prediction prediction) {
-    //TODO: validate if already predicted and match is valid for prediction
+    //TODO: validate if user id same as logged in user
     return predictionService.createPrediction(userId, matchId, prediction);
   }
 }

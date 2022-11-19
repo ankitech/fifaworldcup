@@ -5,6 +5,7 @@ import com.nuance.quiz.entity.Prediction;
 import com.nuance.quiz.entity.User;
 import com.nuance.quiz.repository.PredictionRepository;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -28,13 +29,15 @@ public class PredictionServiceImpl implements PredictionService{
 
   @Override
   public Prediction createPrediction(Integer userId, Integer matchId, Prediction prediction) {
-    //TODO: validate if already predicted and match is valid for prediction
-    Match match = matchService.getMatch(matchId);
     User user = userService.getUser(userId);
-    prediction.setMatch(match);
-    prediction.setUser(user);
-//    prediction.setMatch_id(matchId);
-//    prediction.setUser_id(userId);
-    return predictionRepository.save(prediction);
+    Match match = matchService.getMatch(matchId);
+    Optional<Prediction> predictionOptional = predictionRepository.findByUserAndMatch(user, match);
+    if(predictionOptional.isPresent()){
+      throw new IllegalArgumentException("prediction already done for userid: " + userId + " matchid: "+ matchId);
+    } else {
+      prediction.setUser(user);
+      prediction.setMatch(match);
+      return predictionRepository.save(prediction);
+    }
   }
 }
