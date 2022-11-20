@@ -32,7 +32,7 @@ public class UserController {
     return userService.getAllUsers();
   }
 
-  @PostMapping
+  @PostMapping("/signup")
   @ApiOperation(value = "sign up user", response = Prediction.class,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public User createUser(@RequestBody User user) {

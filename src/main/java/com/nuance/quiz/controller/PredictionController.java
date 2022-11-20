@@ -2,6 +2,7 @@ package com.nuance.quiz.controller;
 
 import com.nuance.quiz.entity.Prediction;
 import com.nuance.quiz.service.PredictionService;
+import com.nuance.quiz.util.CommonUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import java.util.List;
@@ -35,7 +36,13 @@ public class PredictionController {
   @ApiOperation(value = "add new prediction", response = Prediction.class,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public Prediction addPrediction(@PathVariable int userId, @PathVariable int matchId, @RequestBody Prediction prediction) {
-    //TODO: validate if user id same as logged in user
+
+    //validate if user id same as logged in user
+    String username = CommonUtils.getContext().getUsername();
+    if(!username.equals(String.valueOf(userId))){
+      throw new IllegalArgumentException("user id is incorrect");
+    }
+
     return predictionService.createPrediction(userId, matchId, prediction);
   }
 }

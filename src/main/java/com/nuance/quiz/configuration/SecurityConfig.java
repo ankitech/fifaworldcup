@@ -1,5 +1,6 @@
 package com.nuance.quiz.configuration;
 
+import com.nuance.quiz.util.JwtTokenFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -10,13 +11,15 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
+    private final JwtTokenFilter jwtTokenFilter;
     private static final String[] AUTH_WHITELIST = {
-            "/user/login",
+            "/users/login",
             "/users/signup",
             // -- swagger ui
             "/swagger-ui",
@@ -31,8 +34,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             // other public endpoints of your API may be appended to this array
     };
 
-    public SecurityConfig(UserDetailsService userDetailsService) {
+    public SecurityConfig(UserDetailsService userDetailsService, JwtTokenFilter jwtTokenFilter) {
         this.userDetailsService = userDetailsService;
+        this.jwtTokenFilter = jwtTokenFilter;
     }
 
     @Override
@@ -46,12 +50,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers(AUTH_WHITELIST)
             .permitAll()
             .anyRequest()
-            .permitAll()
-            //TODO: add spring authentication
-//            .authenticated()
+            .authenticated()
             .and()
             .sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+        // Add JWT token filter
+        http.addFilterBefore(
+            jwtTokenFilter,
+            UsernamePasswordAuthenticationFilter.class
+        );
     }
 
     @Override

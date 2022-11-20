@@ -2,6 +2,7 @@ package com.nuance.quiz.service;
 
 import com.nuance.quiz.entity.User;
 import com.nuance.quiz.repository.UserRepository;
+import com.nuance.quiz.util.JwtTokenUtil;
 import java.util.List;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -10,8 +11,11 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService{
   private final UserRepository userRepository;
 
-  public UserServiceImpl(UserRepository userRepository) {
+  private final JwtTokenUtil jwtTokenUtil;
+
+  public UserServiceImpl(UserRepository userRepository, JwtTokenUtil jwtTokenUtil) {
     this.userRepository = userRepository;
+    this.jwtTokenUtil = jwtTokenUtil;
   }
 
   @Override
@@ -36,7 +40,7 @@ public class UserServiceImpl implements UserService{
 
     if(user.getPassword().equals(password)) {
       //TODO: generate token
-      return "random-token";
+      return jwtTokenUtil.generateToken(user);
     } else {
       throw new UsernameNotFoundException("User Not found");
     }
