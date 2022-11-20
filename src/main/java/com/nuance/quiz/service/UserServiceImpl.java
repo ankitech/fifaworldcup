@@ -37,9 +37,7 @@ public class UserServiceImpl implements UserService{
   public String authenticateUser(String username, String password) {
     User user = userRepository.findByEmail(username)
         .orElseThrow(() -> new UsernameNotFoundException("User Not found"));
-
     if(user.getPassword().equals(password)) {
-      //TODO: generate token
       return jwtTokenUtil.generateToken(user);
     } else {
       throw new UsernameNotFoundException("User Not found");
