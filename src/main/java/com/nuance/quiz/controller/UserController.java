@@ -6,7 +6,10 @@ import com.nuance.quiz.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import java.util.List;
+import org.springframework.data.util.Pair;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,9 +46,25 @@ public class UserController {
   @PostMapping("/login")
   @ApiOperation(value = "sign up user", response = Prediction.class,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  public String autheticateUser(@RequestHeader(value = "username") String username,
-                         @RequestHeader(value = "password") String password) {
-    return userService.authenticateUser(username, password);
-  }
+  public ResponseEntity<User> autheticateUser(@RequestHeader(value = "username") String username,
+                                              @RequestHeader(value = "password") String password) {
 
+    Pair<String,User> token = userService.authenticateUser(username, password);
+    HttpHeaders responseHeaders = new HttpHeaders();
+    responseHeaders.set("token", token.getFirst());
+
+    User user = token.getSecond();
+    User result = User.builder()
+        .userId(user.getUserId())
+        .email(user.getEmail())
+        .fname(user.getFname())
+        .lname(user.getLname())
+        .team(user.getTeam())
+        .totalPoints(user.getTotalPoints())
+        .build();
+
+    return ResponseEntity.ok()
+        .headers(responseHeaders)
+        .body(result);
+  }
 }

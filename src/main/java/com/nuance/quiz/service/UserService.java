@@ -2,6 +2,7 @@ package com.nuance.quiz.service;
 
 import com.nuance.quiz.entity.User;
 import java.util.List;
+import org.springframework.data.util.Pair;
 
 public interface UserService {
 
@@ -11,5 +12,5 @@ public interface UserService {
 
   User createUser(User user);
 
-  String authenticateUser(String username, String password);
+  Pair<String,User> authenticateUser(String username, String password);
 }

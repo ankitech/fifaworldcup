@@ -34,6 +34,7 @@ public class User {
   private String password;
   private String fname;
   private String lname;
+  private String team;
   @Nullable
   private Integer totalPoints;
 
