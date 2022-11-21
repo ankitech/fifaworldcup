@@ -1,5 +1,6 @@
 package com.nuance.quiz.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
@@ -33,6 +34,7 @@ public class User {
   private int userId;
   @Column(name = "user_email")
   private String email;
+  @JsonIgnore
   private String password;
   private String fname;
   private String lname;
