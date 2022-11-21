@@ -46,7 +46,7 @@ public class UserController {
   @PostMapping("/login")
   @ApiOperation(value = "sign up user", response = Prediction.class,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<User> autheticateUser(@RequestHeader(value = "username") String username,
+  public User autheticateUser(@RequestHeader(value = "username") String username,
                                               @RequestHeader(value = "password") String password) {
 
     Pair<String,User> token = userService.authenticateUser(username, password);
@@ -61,10 +61,9 @@ public class UserController {
         .lname(user.getLname())
         .team(user.getTeam())
         .totalPoints(user.getTotalPoints())
+        .token(token.getFirst())
         .build();
 
-    return ResponseEntity.ok()
-        .headers(responseHeaders)
-        .body(result);
+    return result;
   }
 }

@@ -1,6 +1,7 @@
 package com.nuance.quiz.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import java.util.Set;
 import javax.persistence.Column;
@@ -9,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -37,9 +39,11 @@ public class User {
   private String team;
   @Nullable
   private Integer totalPoints;
-
   @OneToMany(mappedBy = "user")
   @JsonIgnoreProperties("user")
   private Set<Prediction> predictions;
+  @JsonInclude
+  @Transient
+  private String token;
 
 }
