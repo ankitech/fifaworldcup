@@ -2,12 +2,14 @@ package com.nuance.quiz.controller;
 
 import com.nuance.quiz.entity.Prediction;
 import com.nuance.quiz.entity.User;
+import com.nuance.quiz.exception.GeneralException;
 import com.nuance.quiz.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import java.util.List;
 import org.springframework.data.util.Pair;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -39,7 +41,14 @@ public class UserController {
   @PostMapping("/signup")
   @ApiOperation(value = "sign up user", response = Prediction.class,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  public User createUser(@RequestBody User user) {
+  public User createUser(@RequestBody User user) throws GeneralException {
+    String email = user.getEmail().toLowerCase();
+    //Validation for nuance email id
+    if(!email.endsWith("@nuance.com")){
+      throw new GeneralException(HttpStatus.BAD_REQUEST,"Invalid email id");
+    }
+    //update to lower case
+    user.setEmail(email);
     return userService.createUser(user);
   }
 
@@ -47,8 +56,10 @@ public class UserController {
   @ApiOperation(value = "sign up user", response = Prediction.class,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public User autheticateUser(@RequestHeader(value = "username") String username,
-                                              @RequestHeader(value = "password") String password) {
+                                              @RequestHeader(value = "password") String password)
+      throws GeneralException {
 
+    username = username.toLowerCase();
     Pair<String,User> token = userService.authenticateUser(username, password);
     HttpHeaders responseHeaders = new HttpHeaders();
     responseHeaders.set("token", token.getFirst());

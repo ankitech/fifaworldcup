@@ -41,9 +41,9 @@ public class User {
   private String team;
   @Nullable
   private Integer totalPoints;
-  @OneToMany(mappedBy = "user")
-  @JsonIgnoreProperties("user")
-  private Set<Prediction> predictions;
+//  @OneToMany(mappedBy = "user")
+//  @JsonIgnoreProperties("user")
+//  private Set<Prediction> predictions;
   @JsonInclude
   @Transient
   private String token;

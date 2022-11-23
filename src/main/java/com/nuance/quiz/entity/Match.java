@@ -37,7 +37,7 @@ public class Match {
   private Integer result;
   private Integer points;
 
-  @OneToMany(mappedBy = "match")
-  @JsonIgnoreProperties("match")
-  private Set<Prediction> predictions;
+//  @OneToMany(mappedBy = "match")
+//  @JsonIgnoreProperties("match")
+//  private Set<Prediction> predictions;
 }
